@@ -12,6 +12,8 @@ function AddTodoBox({ settodos }) {
   const [desc, setdesc] = useState('')
   const [msg, setmsg] = useState('')
   const [date, setdate] = useState(new Date(+new Date()+7*24*60*60*1000))
+  const [category, setcategory] = useState('To do')
+  const [priority, setpriority] = useState('Low')
 
   const ontitlechange = (e) => {
     settitle(e.target.value)
@@ -24,6 +26,13 @@ function AddTodoBox({ settodos }) {
   const ondatechange = (date) => {
     setdate(date)
   }
+  const oncategorychange = (e) => {
+    setcategory(e.target.value)
+  }
+
+  const onprioritychange = (e) => {
+    setpriority(e.target.value)
+  }
 
   const handleClose = () => {
     setShow(false);
@@ -31,6 +40,8 @@ function AddTodoBox({ settodos }) {
     setdesc('')
     setmsg('')
     setdate(new Date(+new Date()+7*24*60*60*1000))
+    setcategory('To do')
+    setpriority('Low')
   }
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -40,9 +51,10 @@ function AddTodoBox({ settodos }) {
     const todo = {
       title: title,
       description: desc,
-      duedate: date
-    }
-    axios.post('http://localhost:5000/addtodo', todo)
+      duedate: date,
+      category: category,
+      priority: priority    }
+    axios.post('http://localhost:3000/addtodo', todo)
       .then(res => {
         settodos(oldtodos => [...oldtodos, res.data])
         handleClose()
@@ -92,6 +104,19 @@ function AddTodoBox({ settodos }) {
               <Form.Label>Description</Form.Label>
               <Form.Control as="textarea" rows={5} value={desc} onChange={ondescchange} />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+              <Form.Label>Category</Form.Label>
+              <Form.Control as="select" value={category} onChange={oncategorychange}>
+                <option>To do</option>
+                <option>Doing</option>
+                <option>Done</option>
+              </Form.Control>
+              <Form.Label>priority</Form.Label>
+              <Form.Control as="select" value={priority} onChange={onprioritychange}>
+                <option>Low</option>
+                <option>High</option>
+              </Form.Control>
+          </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -101,6 +126,7 @@ function AddTodoBox({ settodos }) {
           <Button variant="primary" onClick={handleSubmit}>
             Add Task
           </Button>
+
         </Modal.Footer>
       </Modal>
     </div>

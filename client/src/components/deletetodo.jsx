@@ -5,7 +5,7 @@ function DeleteTodo({ settodos, id }) {
   const handleSubmit = (e) => {
     e.preventDefault()
    
-    axios.delete('http://localhost:5000/' + id)
+    axios.delete('http://localhost:3000/' + id)
       .then(res => {
           if(res.status !== 400){      
         settodos(oldtodos => {

@@ -39,7 +39,7 @@ function UpdateTodo({ settodos, id }) {
       description: desc,
       duedate: date
     }
-    axios.put('http://localhost:5000/update/' + id, todo)
+    axios.put('http://localhost:3000/update/' + id, todo)
       .then(res => {
         settodos(oldtodos => {
             const newtodos = oldtodos.map(todo => {
@@ -59,7 +59,7 @@ function UpdateTodo({ settodos, id }) {
   }
   const handleShow = () =>{ 
     setShow(true)
-    axios.get('http://localhost:5000/todos/' + id)
+    axios.get('http://localhost:3000/todos/' + id)
     .then(res => {
         settitle(res.data.title)
         setdesc(res.data.description)
